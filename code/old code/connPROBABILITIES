@@ -1,0 +1,75 @@
+        if same_hypercolumn(i,j):
+         #    conn_matrix[j][i] = flip(0.08328125,i)
+            #if same_minicolumn(i,j) or same_layer(i,j):
+                #conn_matrix[j][i] = flip(.35,i)
+                # DIFFERENT HYPERCOLUMN
+            # LAYER 2/3
+            if i in layers23 and j in layers23:
+                if both_exc(i,j):
+                    conn_matrix[j][i]= flip(0.26,i)
+                    counter23 = check_count(counter23, conn_matrix[j][i])
+                elif both_inh(i,j):
+                    conn_matrix[j][i]= flip(0.25,i)
+                    counter23 = check_count(counter23, conn_matrix[j][i])
+                elif i in excitatory_nrns and j in inhibitory_nrns:
+                    conn_matrix[j][i]= flip(0.21,i)
+                    counter23 = check_count(counter23, conn_matrix[j][i])
+                else:
+                    conn_matrix[j][i]= flip(0.16,i)
+                    counter23 = check_count(counter23, conn_matrix[j][i])
+            # LAYER 4
+            elif i in layers4 and j in layers4:
+                if both_exc(i,j):
+                    conn_matrix[j][i]= flip(0.17,i)
+                    counter4 = check_count(counter4, conn_matrix[j][i])
+                elif both_inh(i,j):
+                    conn_matrix[j][i]= flip(0.50,i)
+                    counter4 = check_count(counter4, conn_matrix[j][i])
+                elif i in excitatory_nrns and j in inhibitory_nrns:
+                    conn_matrix[j][i]= flip(0.19,i)
+                    counter4 = check_count(counter4, conn_matrix[j][i])
+                else:
+                    conn_matrix[j][i]= flip(0.10,i)
+                    counter4 = check_count(counter4, conn_matrix[j][i])
+            # LAYER 5
+            elif i in layers5 and j in layers5:
+                if both_exc(i,j):
+                    conn_matrix[j][i]= flip(0.09,i)
+                    counter5 = check_count(counter5, conn_matrix[j][i])
+                elif both_inh(i,j):
+                    conn_matrix[j][i]= flip(0.60,i)
+                    counter5 = check_count(counter5, conn_matrix[j][i])
+                elif i in excitatory_nrns and j in inhibitory_nrns:
+                    conn_matrix[j][i]= flip(0.10,i)
+                    counter5 = check_count(counter5, conn_matrix[j][i])
+                else:
+                    conn_matrix[j][i]= flip(0.12,i)
+                    counter5 = check_count(counter5, conn_matrix[j][i])
+            # FROM LAYER4 -> LAYER2/3
+            elif i in layers4 and j in layers23:
+                if both_exc(i,j):
+                    conn_matrix[j][i]= flip(0.28,i)
+                elif both_inh(i,j):
+                    conn_matrix[j][i]= flip(0.20,i)
+                elif i in excitatory_nrns and j in inhibitory_nrns:
+                    conn_matrix[j][i]= flip(0.10,i)
+                else:
+                    conn_matrix[j][i]= flip(0.50,i)
+            # FROM LAYER2/3 -> LAYER5
+            elif i in layers23 and j in layers5:
+                if both_exc(i,j):
+                    conn_matrix[j][i]= flip(0.55,i)
+                elif both_inh(i,j):
+                    conn_matrix[j][i]= flip(0.0001,i)
+                elif i in excitatory_nrns and j in inhibitory_nrns:
+                    conn_matrix[j][i]= flip(0.001,i)
+                else:
+                    conn_matrix[j][i]= flip(0.20,i)
+        elif next_hypercolumn(i,j):
+            if (i in layers5 and j in layers4):
+                conn_matrix[j][i]=  flip(0.35,i)
+        elif prev_hypercolumn(i,j):
+            if (i in layers5 and j in layers23):
+                conn_matrix[j][i]=  flip(0.35,i)
+        else:
+            conn_matrix[j][i] = flip(0.0001,i)
