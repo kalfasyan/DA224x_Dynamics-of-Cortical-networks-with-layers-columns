@@ -171,7 +171,7 @@ nrns_l5 = nrns_l23
 print nrns,"neurons."
 print nrns_hc, "per hypercolumn in %s" %hc,"hypercolumns."
 print nrns_mc, "per minicolumn in %s" %mc_hc,"minicolumns."
-print nrns_l23, "in each layer in %s" %lr_mc,"layers"
+print nrns_l23, nrns_l4, nrns_l5, "in layers23 layer4 and layer5 respectively"
 ##############################################################
 """ 2. Creating list of Hypercolumns, list of minicolumns within
     hypercolumns, list of layers within minicolumns within
@@ -179,17 +179,26 @@ print nrns_l23, "in each layer in %s" %lr_mc,"layers"
 split = [i for i in range(nrns)]
 split_hc = zip(*[iter(split)]*nrns_hc)
 split_mc = []
-split_lr = []
+split_lr23,split_lr4,split_lr5 = [],[],[]
 for i in range(len(split_hc)):
     split_mc.append(zip(*[iter(split_hc[i])]*nrns_mc))
     for j in range(len(split_mc[i])):
-        split_lr.append(zip(*[iter(split_mc[i][j])]*nrns_l23))
-split_exc = []
-split_inh = []
-for i in range(len(split_lr)):
-    for j in split_lr[i]:
-        split_exc.append(j[0:exc_nrns_mc])
-        split_inh.append(j[exc_nrns_mc:])
+        split_lr23.append(split_mc[i][j][0:nrns_l23])
+        split_lr4.append(split_mc[i][j][nrns_l23:nrns_l23+nrns_l4])
+        split_lr5.append(split_mc[i][j][nrns_l23+nrns_l4:])
+
+split_exc,split_inh = [],[]
+for i in range(len(split_lr23)):
+    split_exc.append(split_lr23[i][0:int(round(80./100.*(len(split_lr23[i]))))])
+    split_inh.append(split_lr23[i][int(round(80./100.*(len(split_lr23[i])))):])
+for i in range(len(split_lr4)):
+    split_exc.append(split_lr4[i][0:int(round(80./100.*(len(split_lr4[i]))))])
+    split_inh.append(split_lr4[i][int(round(80./100.*(len(split_lr4[i])))):])
+for i in range(len(split_lr5)):
+    split_exc.append(split_lr5[i][0:int(round(80./100.*(len(split_lr5[i]))))])
+    split_inh.append(split_lr5[i][int(round(80./100.*(len(split_lr5[i])))):])
+
+
 ##############################################################
 """ 3. Creating sets for all minicolumns and all layers  """
 hypercolumns = set(split_hc)
@@ -200,21 +209,14 @@ for i in range(len(split_mc)):
         minitemp.append(j)
 minicolumns = set(minitemp)
 
-l23temp,l4temp,l5temp = [],[],[]
-for i in range(len(split_lr)):
-    for j in range(len(split_lr[i])):
-        if j == 0:
-            l23temp.append(split_lr[i][j])
-        if j == 1:
-            l4temp.append(split_lr[i][j])
-        if j == 2:
-            l5temp.append(split_lr[i][j])
-layers23 = set(list(itertools.chain.from_iterable(l23temp)))
-layers4 = set(list(itertools.chain.from_iterable(l4temp)))
-layers5 = set(list(itertools.chain.from_iterable(l5temp)))
+layers23 = set(list(itertools.chain.from_iterable(split_lr23)))
+layers4 = set(list(itertools.chain.from_iterable(split_lr4)))
+layers5 = set(list(itertools.chain.from_iterable(split_lr5)))
 
 excitatory_nrns = set(list(itertools.chain.from_iterable(split_exc)))
 inhibitory_nrns = set(list(itertools.chain.from_iterable(split_inh)))
+
+
 
 """            4. Connection matrix operations             """
 ##############################################################
@@ -300,16 +302,10 @@ for i in range(nrns):
                     else:
                         conn_matrix[j][i]= flip(0.20,i)
                         countB = check_count(countB, conn_matrix[j][i])
-            elif not same_minicolumn(i,j):
-                if both_exc(i,j):
-                    conn_matrix[j][i] = flip(0.,i)
-                else:
-                    conn_matrix[j][i] = flip(0.7,i)
-        #elif next_hypercolumn(i,j):
-        elif i in split_mc[0][2] and j in split_mc[1][2] and both_exc(i,j):
-            #if (i in layers5 and j in layers4):
-            conn_matrix[j][i]=  flip(0.30,i)
-            countAz = check_count(countAz, conn_matrix[j][i])
+            elif not same_minicolumn(i,j) and same_layer(i,j):
+                conn_matrix[j][i] = flip(0.35,i)
+        elif not same_hypercolumn(i,j):
+            conn_matrix[j][i] = flip(0.35,i)
         #elif prev_hypercolumn(i,j):
 """
         elif i in split_mc[1][2] and j in split_mc[0][2] and both_exc(i,j):
