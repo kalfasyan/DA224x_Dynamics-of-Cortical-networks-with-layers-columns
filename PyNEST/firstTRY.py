@@ -16,7 +16,7 @@ def flip(p,j,i):
         return (nest.Connect(pm.Nestrons[i],pm.Nestrons[j],syn_spec="inhibitory")) if random.random() < p else 0
 
 
-nest.CopyModel("static_synapse","excitatory",{"weight":8., "delay":0.5})
+nest.CopyModel("static_synapse","excitatory",{"weight":18., "delay":0.5})
 nest.CopyModel("static_synapse","inhibitory",{"weight":-4.,"delay":0.5})
 
 
@@ -33,8 +33,11 @@ for i in range(len(psn)):
 #print pm.split_lr
 
 conn_dict = {'rule': 'fixed_indegree', 'indegree': len(pm.split_lr[0][0])}
-
+print len(pm.split_lr[0][0])
+print "split lr 0 and 0 0"
+print pm.split_lr[0]
 print pm.split_lr[0][0]
+print "spikerec"
 print spikerec[0]
 
 
@@ -130,7 +133,7 @@ np.savetxt('debug_connectivity.txt', conn_list)
 nest.PrintNetwork()
 a = nest.GetConnections()
 
-nest.Simulate(500.)
+#nest.Simulate(500.)
 
 
 data = nest.GetStatus(spikerec)
