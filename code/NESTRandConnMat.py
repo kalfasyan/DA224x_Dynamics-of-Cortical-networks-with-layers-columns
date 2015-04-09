@@ -10,10 +10,11 @@ import random
 from progressbar import *
 import RandomConnMat as rm
 import time
+import pyspike as spk
 
 # Progress bar stuff
 # --------------------------------------------------------
-widgets = ['Working: ', Percentage(), ' ', Bar(marker='=',
+widgets = ['Connection Matrix: ', Percentage(), ' ', Bar(marker='=',
             left='[',right=']'), ' ', ETA(), ' ', FileTransferSpeed()]
 pbar = ProgressBar(widgets=widgets, maxval=pm.nrns)
 #---------------------------------------------------------
@@ -55,7 +56,7 @@ for j in range(pm.nrns):
     for i in range(pm.nrns):
         if (rm.conn_matrix[j][i] > 0.0001 or rm.conn_matrix[j][i] < -0.0001):
             n_connect(j,i)
-    pbar.update(i)
+    pbar.update(j)
 pbar.finish()
 """
 for j in range(pm.nrns):
@@ -145,10 +146,34 @@ a = nest.GetConnections()
 nest.Simulate(100.)
 
 data = nest.GetStatus(spikerec)
+a,b = data[0]['events']['times'],data[0]['events']['senders']
+
+output = open('PySpike_testdata.txt', 'wb')
+z,x =[],[]
+for i in range(len(a)):
+    if b[i] == b[0]:
+        z.append(a[i])
+    if b[i] == b[100]:
+        x.append(a[i])
+
+diffs = [f-g for f,g in zip(z,z[1:])]
+
+for item in z:
+  output.write("%s " % item)
+output.write("\n")
+for item in x:
+  output.write("%s " % item)
+
+diffs = [(z[i+1] - val) for i, val in enumerate(z) if i<len(z)-1]
+pl.plot(diffs)
+pl.show()
+
+
+"""
 kolor=['c','k','g','b','y','m','c','k','g','b','y','m','y','g','k','b','c','m']
 for i in xrange(len(spikerec)):
     a,b = data[i]['events']['times'],data[i]['events']['senders']
     pl.scatter(a,b,marker='.')#,color=kolor[i])
 pl.show()
-
+"""
 print "Done..!"

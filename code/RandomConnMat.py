@@ -1,3 +1,4 @@
+from scipy import stats
 import random
 import numpy as np
 import itertools
@@ -171,7 +172,7 @@ print g
 print "% connections within a hypercolumn= ", round((count23+count4+count5+countQ)/float(g)*100.)
 print "% connections outside a hypercolumn= ", round(float(float(countAz)/float(g))*100.)
 print
-"""
+#"""
 delta =0
 for i in range(pm.nrns):
     if np.sum(conn_matrix[i,:]) > 1e-5:
@@ -193,7 +194,7 @@ for i in range(pm.nrns):
                 z+=1
 print h,"negatives in exc"
 print z,"positives in inh"
-#"""
+
 """
 gh = 0
 for i in conn_matrix[1][:]:
@@ -202,6 +203,28 @@ for i in conn_matrix[1][:]:
 print gh
 """
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+#"""
+ee = la.eigvals(conn_matrix)
+print np.average(ee.real)
+print np.average(ee.imag)
+#kernel = stats.gaussian_kde(ee)
+print np.size(ee.real)
+print np.size(ee.imag)
+hist,xedges,yedges = np.histogram2d(ee.real,ee.imag,bins=40,normed=False)
+
+print len(hist)
+for i in hist:
+    for j in i:
+        if j >1:
+            print j
+
+print xedges
+print yedges
+
+extent = [-5, 5, -5, 5 ]
+plt.imshow(hist.T,extent=extent,interpolation='nearest',origin='lower')
+plt.colorbar()
+plt.show()
 """
 print ("Matrix Created in %.5s seconds." % (time.time() - start_time))
 print "Loading plot..."
