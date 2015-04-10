@@ -9,7 +9,7 @@ from progressbar import *
 from collections import Counter
 import decimal
 import math
-import parameters as pm
+import parameters_v1 as pm
 output = open('matrixExport.txt', 'wb')
 
 # Progress bar stuff
