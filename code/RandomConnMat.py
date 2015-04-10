@@ -203,7 +203,7 @@ for i in conn_matrix[1][:]:
 print gh
 """
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-#"""
+"""
 ee = la.eigvals(conn_matrix)
 print np.average(ee.real)
 print np.average(ee.imag)
@@ -225,7 +225,7 @@ extent = [-5, 5, -5, 5 ]
 plt.imshow(hist.T,extent=extent,interpolation='nearest',origin='lower')
 plt.colorbar()
 plt.show()
-"""
+
 print ("Matrix Created in %.5s seconds." % (time.time() - start_time))
 print "Loading plot..."
 

@@ -20,6 +20,11 @@ pbar = ProgressBar(widgets=widgets, maxval=pm.nrns)
 #---------------------------------------------------------
 start_time = time.time()
 
+def is_periodic(samples, tolerance=0):
+    diffs = [f-g for f,g in zip(samples,samples[1:])]
+    return all(d-tolerance <= np.mean(diffs) <= d+tolerance for d in diffs)
+
+
 
 def n_connect(j,i):#(p,j,i):##
     if i in pm.exc_nrns_set:
@@ -148,25 +153,42 @@ nest.Simulate(100.)
 data = nest.GetStatus(spikerec)
 a,b = data[0]['events']['times'],data[0]['events']['senders']
 
+
 output = open('PySpike_testdata.txt', 'wb')
+"""
 z,x =[],[]
+# a's are the spike times of a particular b (sender)
 for i in range(len(a)):
     if b[i] == b[0]:
         z.append(a[i])
     if b[i] == b[100]:
         x.append(a[i])
 
-diffs = [f-g for f,g in zip(z,z[1:])]
 
 for item in z:
   output.write("%s " % item)
 output.write("\n")
 for item in x:
   output.write("%s " % item)
+"""
 
-diffs = [(z[i+1] - val) for i, val in enumerate(z) if i<len(z)-1]
-pl.plot(diffs)
-pl.show()
+delta=[[] for i in range(len(a))]
+for i in range(len(a)):
+    for j in range(len(b)):
+        if b[j] == b[i]:
+            delta[i].append(a[j])
+
+for i in delta:
+    output.write("%s \n" % i)
+
+
+print "Done..!"
+
+
+
+
+
+
 
 
 """
@@ -176,4 +198,3 @@ for i in xrange(len(spikerec)):
     pl.scatter(a,b,marker='.')#,color=kolor[i])
 pl.show()
 """
-print "Done..!"
