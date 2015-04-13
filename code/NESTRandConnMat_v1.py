@@ -10,11 +10,12 @@ import RandomConnMat as rm
 import time
 import pyspike as spk
 import pylab as py
+from NeuroTools import signals
 
 file_name = 'test'
 
 nest.ResetKernel()
-nest.SetKernelStatus({'print_time':True,'local_num_threads':4,'overwrite_files':True,'data_path':'./data/','data_prefix':file_name})
+nest.SetKernelStatus({'print_time':True,'local_num_threads':1,'overwrite_files':True,'data_path':'./data/','data_prefix':file_name})
 
 # Progress bar stuff
 # --------------------------------------------------------
@@ -71,16 +72,15 @@ pbar.finish()
 
 nest.Connect(psn,Nestrons, syn_spec="excitatory")
 
-nest.Connect(Nestrons,spikerec,conn_dict)
+nest.Connect(Nestrons,spikerec)
 
-print "Done first phase!"
-print "created empty matrix!"
+print "Done first phase.."
 
 #"""
 
 
-print "Created matrix!"
-print ("Matrix Created in %.5s seconds." % (time.time() - start_time))
+
+print ("Matrix Created in %.5s seconds.." % (time.time() - start_time))
 """" 5. Connectivity list for weight figure """
 """
 connections = nest.GetConnections()
@@ -101,52 +101,23 @@ nest.Simulate(100.)
 
 
 
+
+
+print "Done..\n now plotting..."
+
+xx = np.loadtxt('./data/testspike_detector-721-0.gdf')
+
 output = open('PySpike_testdata.txt', 'wb')
-"""
-z,x =[],[]
-# a's are the spike times of a particular b (sender)
-for i in range(len(a)):
-    if b[i] == b[0]:
-        z.append(a[i])
-    if b[i] == b[100]:
-        x.append(a[i])
+delta = [[] for i in range(pm.nrns)]
+for i in range(pm.nrns):
+    searchval = i
+    q = np.where(xx[:,0]==searchval)[0]
+    for j in q:
+        delta[i].append(xx[j,1])
+for i in range(pm.nrns):
+    output.write("%s \n" %delta[i])
 
 
-for item in z:
-  output.write("%s " % item)
-output.write("\n")
-for item in x:
-  output.write("%s " % item)
-
-delta=[[] for i in range(len(a))]
-for i in range(len(a)):
-    for j in range(len(b)):
-        if b[j] == b[i]:
-            delta[i].append(a[j])
-
-for i in delta:
-    output.write("%s \n" % i)
-"""
-
-print "Done..! now plotting..."
-
-xx = np.loadtxt('./data/testspike_detector-181-3.gdf')
 pl.plot(xx[:,1],xx[:,0],'.')
 pl.show()
 
-
-"""
-
-
-data = nest.GetStatus(spikerec)
-a,b = data[0]['events']['times'],data[0]['events']['senders']
-
-print data[0]['events']['times']
-print data[0]['events']['senders']
-
-kolor=['c','k','g','b','y','m','c','k','g','b','y','m','y','g','k','b','c','m']
-for i in xrange(len(spikerec)):
-    a,b = data[i]['events']['times'],data[i]['events']['senders']
-    pl.scatter(a,b,marker='.')#,color=kolor[i])
-pl.show()
-"""

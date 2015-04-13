@@ -79,6 +79,8 @@ inh = [None for i in range(len(inh_nrns_set))]
 
 #################### FUNCTIONS #####################################
 
+
+
 """ Checks if 2 neurons belong in the same hypercolumn """
 def same_hypercolumn(q,w):
 	for i in hypercolumns:
@@ -225,3 +227,4 @@ def check_count(c, n):
     if n <= -1e-4 or n>= 1e-4:
         c+=1
     return c
+

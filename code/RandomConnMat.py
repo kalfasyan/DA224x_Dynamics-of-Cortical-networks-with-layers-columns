@@ -26,6 +26,7 @@ conn_matrix = np.zeros((pm.nrns,pm.nrns))
 count23,count4,count5,countA,countB,countAz,countQ,countW = 0,0,0,0,0,0,0,0
 for i in range(pm.nrns):
     for j in range(pm.nrns):
+        #http://stackoverflow.com/questions/481144/equation-for-testing-if-a-point-is-inside-a-circle
         # SAME HYPERCOLUMN
         if pm.same_hypercolumn(i,j):
         #"""
