@@ -3,15 +3,14 @@ import numpy as np
 import itertools
 import matplotlib.pylab as plt
 from scipy import linalg as la
-#import time
+import time
 from progressbar import *
-#from collections import Counter
+from collections import Counter
 import decimal
 import math
-#import nest
+import nest
 
-
-
+nrn_type = "iaf_neuron"
 
 exc_nrns_mc = 16
 inh_nrns_mc = 4
@@ -22,7 +21,6 @@ nrns = (exc_nrns_mc+inh_nrns_mc)*hc*mc_hc*lr_mc
 q = 1
 sigma = math.sqrt(q/decimal.Decimal(nrns))
 sigma2 = math.sqrt(1/decimal.Decimal(nrns))
-#sigma *= 1/100.
 mu = 0
 nrns_hc = nrns/hc
 nrns_mc = nrns_hc/mc_hc
@@ -157,8 +155,7 @@ def flipAdj(p,q):
 		return -1 if random.random() < p else 0
 
 def flip(p,q):
-    #p += .2
-    #
+    p += .2
     if q in exc_nrns_set:
         return (np.random.normal(0,sigma)+.5) if random.random() < p else 0
     elif q in inh_nrns_set:
@@ -232,28 +229,3 @@ def check_count(c, n):
         c+=1
     return c
 
-def number_conns(mat,n):
-    zed,pos,neg=[],[],[]
-    for i in range(nrns):
-        zed.append(len(plt.find(np.abs(mat[i,:])) != 0))
-        pos.append(len(plt.find((mat[i,:]) > 0)))
-        neg.append(len(plt.find((mat[i,:]) < 0)))
-    #print pos[n]
-    return zed[n],pos[n],neg[n]
-
-
-def n_where(n,mat):
-    a = [layers23,layers4,layers5,exc_nrns_set,inh_nrns_set]
-    if n in a[0]:
-        print "in Layer23"
-    elif n in a[1]:
-        print "in Layer4"
-    elif n in a[2]:
-        print "in Layer5"
-    if n in a[3]:
-        print "Excitatory"
-    elif n in a[4]:
-        print "Inhibitory"
-    print "(All, Exc, Inh)"
-    print number_conns(mat,n)
-    return "Done"

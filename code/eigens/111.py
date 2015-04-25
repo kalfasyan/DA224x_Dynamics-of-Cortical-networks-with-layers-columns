@@ -192,7 +192,7 @@ print "gh", gh
 #"""
 ee = la.eigvals(conn_matrix)
 
-conn_matrix.dump("conn_matrix.dat")
+conn_matrix.dump("111.dat")
 print "Done!"
 
 """

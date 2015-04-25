@@ -27,93 +27,8 @@ conn_matrix = np.zeros((pm.nrns,pm.nrns))
 count23,count4,count5,countA,countB,countAz,countQ,countW = 0,0,0,0,0,0,0,0
 for i in range(pm.nrns):
     for j in range(pm.nrns):
-        #http://stackoverflow.com/questions/481144/equation-for-testing-if-a-point-is-inside-a-circle
-        # SAME HYPERCOLUMN
-        if pm.same_hypercolumn(i,j):
-        #"""
-            # SAME MINICOLUMN
-            if pm.same_minicolumn(i,j):
-                if i in pm.layers23 and j in pm.layers23:
-                    if pm.both_exc(i,j):
-                        conn_matrix[j][i]= pm.flip(0.26,i)
-                        count23 = pm.check_count(count23, conn_matrix[j][i])
-                    elif pm.both_inh(i,j):
-                        conn_matrix[j][i]= pm.flip(0.25,i)
-                        count23 = pm.check_count(count23, conn_matrix[j][i])
-                    elif i in pm.exc_nrns_set and j in pm.inh_nrns_set:
-                        conn_matrix[j][i]= pm.flip(0.21,i)
-                        count23 = pm.check_count(count23, conn_matrix[j][i])
-                    else:
-                        conn_matrix[j][i]= pm.flip(0.16,i)
-                        count23 = pm.check_count(count23, conn_matrix[j][i])
-                # LAYER 4
-                elif i in pm.layers4 and j in pm.layers4:
-                    if pm.both_exc(i,j):
-                        conn_matrix[j][i]= pm.flip(0.17,i)
-                        count4 = pm.check_count(count4, conn_matrix[j][i])
-                    elif pm.both_inh(i,j):
-                        conn_matrix[j][i]= pm.flip(0.50,i)
-                        count4 = pm.check_count(count4, conn_matrix[j][i])
-                    elif i in pm.exc_nrns_set and j in pm.inh_nrns_set:
-                        conn_matrix[j][i]= pm.flip(0.19,i)
-                        count4 = pm.check_count(count4, conn_matrix[j][i])
-                    else:
-                        conn_matrix[j][i]= pm.flip(0.10,i)
-                        count4 = pm.check_count(count4, conn_matrix[j][i])
-                # LAYER 5
-                elif i in pm.layers5 and j in pm.layers5:
-                    if pm.both_exc(i,j):
-                        conn_matrix[j][i]= pm.flip(0.09,i)
-                        count5 = pm.check_count(count5, conn_matrix[j][i])
-                    elif pm.both_inh(i,j):
-                        conn_matrix[j][i]= pm.flip(0.60,i)
-                        count5 = pm.check_count(count5, conn_matrix[j][i])
-                    elif i in pm.exc_nrns_set and j in pm.inh_nrns_set:
-                        conn_matrix[j][i]= pm.flip(0.10,i)
-                        count5 = pm.check_count(count5, conn_matrix[j][i])
-                    else:
-                        conn_matrix[j][i]= pm.flip(0.12,i)
-                        count5 = pm.check_count(count5, conn_matrix[j][i])
-                # FROM LAYER4 -> LAYER2/3
-                elif i in pm.layers4 and j in pm.layers23:
-                    if pm.both_exc(i,j):
-                        conn_matrix[j][i]= pm.flip(0.28,i)
-                        countA = pm.check_count(countA, conn_matrix[j][i])
-                    elif pm.both_inh(i,j):
-                        conn_matrix[j][i]= pm.flip(0.20,i)
-                        countA = pm.check_count(countA, conn_matrix[j][i])
-                    elif i in pm.exc_nrns_set and j in pm.inh_nrns_set:
-                        conn_matrix[j][i]= pm.flip(0.10,i)
-                        countA = pm.check_count(countA, conn_matrix[j][i])
-                    else:
-                        conn_matrix[j][i]= pm.flip(0.50,i)
-                        countA = pm.check_count(countA, conn_matrix[j][i])
-                # FROM LAYER2/3 -> LAYER5
-                elif i in pm.layers23 and j in pm.layers5:
-                    if pm.both_exc(i,j):
-                        conn_matrix[j][i]= pm.flip(0.55,i)
-                        countB = pm.check_count(countB, conn_matrix[j][i])
-                    elif pm.both_inh(i,j):
-                        conn_matrix[j][i]= pm.flip(0.0001,i)
-                        countB = pm.check_count(countB, conn_matrix[j][i])
-                    elif i in pm.exc_nrns_set and j in pm.inh_nrns_set:
-                        conn_matrix[j][i]= pm.flip(0.001,i)
-                        countB = pm.check_count(countB, conn_matrix[j][i])
-                    else:
-                        conn_matrix[j][i]= pm.flip(0.20,i)
-                        countB = pm.check_count(countB, conn_matrix[j][i])
-            #:::
-            elif pm.same_hypercolumn(i,j) and not pm.same_minicolumn(i,j):
-                conn_matrix[j][i] = pm.flip(0.3,i)
-                countQ = pm.check_count(countQ,conn_matrix[j][i])
-        # DIFFERENT HYPERCOLUMN
-        elif not pm.same_hypercolumn(i,j):
-            if i in pm.inh_nrns_set:
-                conn_matrix[j][i] = pm.flip(0.3,i)
-                countAz = pm.check_count(countAz, conn_matrix[j][i])
-            else:
-                conn_matrix[j][i] = pm.flip(0.3,i)
-                countAz = pm.check_count(countAz, conn_matrix[j][i])
+        conn_matrix[j][i] = pm.flip(.285,i)
+        countAz = pm.check_count(countAz, conn_matrix[j][i])
         #pbar.update(i)
 #pbar.finish()
 
@@ -192,7 +107,7 @@ print "gh", gh
 #"""
 ee = la.eigvals(conn_matrix)
 
-conn_matrix.dump("conn_matrix.dat")
+conn_matrix.dump("000.dat")
 print "Done!"
 
 """

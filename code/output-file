@@ -1,0 +1,87 @@
+tvshows 
+sudo add-apt-repository ppa:jcfp/ppa
+sudo apt-get install sabnzbdplus
+sabnzbdplus 
+tvshows 
+sudo rm /var/crash/*
+git clone https://github.com/kalfasyan/DA224x.git
+ls
+cd DA224x/
+ls
+cd code/
+ls
+spyder RandomConnMat.py 
+ls
+cd DA224x/
+ls
+git add .
+git commit -am "abandoned lansner model"
+git config --global user.email "kalfasyan@gmail.com"
+git config --global user.name "kalfasyan"
+git add .
+git commit -am "abandoned lansner model"
+git push
+cd DA224x/code/
+spyder RandomConnMat.py 
+cd DA224x/code/
+ls
+spyder RandomConnMat.py 
+cd DA224x/
+git add .
+git commit -am "using parameters.py for all"
+git push
+matlab 
+pip
+sudo pip install pyspike
+notests
+nosetest
+nosetests
+sudo apt-get install python-nose
+nosetests
+python
+cd Desktop/
+python
+cd 
+cd DA224x/
+git add .
+git commit -am "eigen density, periodicity, spike distance"
+git push
+python
+cd DA224x/
+git add.
+git add .
+git commit -am "spikeDistance, is_periodic for all neurons"
+git push
+python
+cd DA224x/code/
+mkdir data
+ls
+ipython -pylab
+ipython
+ls
+cd DA224x/
+git add .
+git commit -am "nest removal of one for loop"
+git push
+cd DA224x/
+cd code/
+cd
+tcplay
+cd opt/
+ls
+cd ..
+ls
+pip install neurotools
+sudo pip install neurotools
+sudo gedit .bashrc
+sudoip install neurotools
+python
+ipython
+cd DA224x/
+git add .
+git commit -am "writing times on file"
+git push
+cd DA224x/
+cd code/data/
+ls
+ipython -pylab
