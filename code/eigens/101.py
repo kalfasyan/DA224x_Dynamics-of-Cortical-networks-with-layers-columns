@@ -100,7 +100,7 @@ for i in range(pm.nrns):
                     countB = pm.check_count(countB, conn_matrix[j][i])
         #:::
         elif not pm.same_hypercolumn(i,j):
-            conn_matrix[j][i] = pm.flip(0.13,i)
+            conn_matrix[j][i] = pm.flip(0.1,i)
             countQ = pm.check_count(countQ,conn_matrix[j][i])
 
         #pbar.update(i)

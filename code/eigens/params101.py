@@ -155,7 +155,7 @@ def flipAdj(p,q):
 		return -1 if random.random() < p else 0
 
 def flip(p,q):
-    p += .2
+    #p += .2
     if q in exc_nrns_set:
         return (np.random.normal(0,sigma)+.5) if random.random() < p else 0
     elif q in inh_nrns_set:

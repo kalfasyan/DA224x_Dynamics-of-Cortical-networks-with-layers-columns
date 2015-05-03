@@ -26,21 +26,15 @@ conn_matrix = np.zeros((pm.nrns,pm.nrns))
 count23,count4,count5,countA,countB,countAz,countQ,countW = 0,0,0,0,0,0,0,0
 for i in range(pm.nrns):
     for j in range(pm.nrns):
-        #http://stackoverflow.com/questions/481144/equation-for-testing-if-a-point-is-inside-a-circle
         # SAME MINICOLUMN
         if pm.same_minicolumn(i,j):
-            conn_matrix[j][i] = pm.flip(0.3,i) #0.097
+            conn_matrix[j][i] = pm.flip(0.13,i) #0.097
             countA = pm.check_count(countA, conn_matrix[j][i])
         #:::
         elif not pm.same_minicolumn(i,j):
-            conn_matrix[j][i] = pm.flip(0.25,i)
+            conn_matrix[j][i] = pm.flip(0.10,i)
             countQ = pm.check_count(countQ,conn_matrix[j][i])
 
-        #pbar.update(i)
-#pbar.finish()
-
-        #pbar.update(i)
-#pbar.finish()
 
 print ("Matrix Created in %.5s seconds." % (time.time() - start_time))
 

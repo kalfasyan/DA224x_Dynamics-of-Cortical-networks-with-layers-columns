@@ -29,11 +29,11 @@ for i in range(pm.nrns):
         #http://stackoverflow.com/questions/481144/equation-for-testing-if-a-point-is-inside-a-circle
         # SAME HYPERCOLUMN
         if pm.same_hypercolumn(i,j):
-            conn_matrix[j][i] = pm.flip(0.25,i) #28
+            conn_matrix[j][i] = pm.flip(0.10,i) #28
             countQ = pm.check_count(countQ,conn_matrix[j][i])
         # DIFFERENT HYPERCOLUMN
         elif not pm.same_hypercolumn(i,j):
-            conn_matrix[j][i] = pm.flip(0.3,i) #72
+            conn_matrix[j][i] = pm.flip(0.11,i) #72
             countAz = pm.check_count(countAz, conn_matrix[j][i])
         #pbar.update(i)
 #pbar.finish()

@@ -157,9 +157,10 @@ def flipAdj(p,q):
 def flip(p,q):
     #p += .2
     if q in exc_nrns_set:
-        return (np.random.normal(0,sigma)+.5) if random.random() < p else 0
+        return (np.random.normal(0./math.sqrt(float(nrns)),1/math.sqrt(float(nrns)))+.5) if random.random() < p else 0.
     elif q in inh_nrns_set:
-        return (np.random.normal(0,sigma)-.5) if random.random() < p else 0
+        return (np.random.normal(-0./math.sqrt(float(nrns)),1/math.sqrt(float(nrns)))-.5) if random.random() < p else 0.
+
 
 def flip2(p,q):
     a = decimal.Decimal(0.002083333)

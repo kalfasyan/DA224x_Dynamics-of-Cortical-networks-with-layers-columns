@@ -9,7 +9,7 @@ from progressbar import *
 from collections import Counter
 import decimal
 import math
-import parameters_v1 as pm
+import params000 as pm
 #import pylab as py
 output = open('matrixExport.txt', 'wb')
 
@@ -27,7 +27,7 @@ conn_matrix = np.zeros((pm.nrns,pm.nrns))
 count23,count4,count5,countA,countB,countAz,countQ,countW = 0,0,0,0,0,0,0,0
 for i in range(pm.nrns):
     for j in range(pm.nrns):
-        conn_matrix[j][i] = pm.flip(.285,i)
+        conn_matrix[j][i] = pm.flip(.10,i)
         countAz = pm.check_count(countAz, conn_matrix[j][i])
         #pbar.update(i)
 #pbar.finish()
@@ -143,7 +143,7 @@ noB_var_col = np.var(conn_matrix,0)
 B_var_row = np.var(conn_matrix,1)
 B_var_col = np.var(conn_matrix,0)
 
-ed = np.linspace(-4.,1,1e3)
+ed = np.linspace(-8.,3,1e3)
 hh,ed= np.histogram(conn_matrix.flatten(),ed)
 
 tt = np.linspace(np.pi,-np.pi,1e2)

@@ -104,15 +104,15 @@ for i in range(pm.nrns):
                         countB = pm.check_count(countB, conn_matrix[j][i])
             #:::
             elif pm.same_hypercolumn(i,j) and not pm.same_minicolumn(i,j):
-                conn_matrix[j][i] = pm.flip(0.3,i)
+                conn_matrix[j][i] = pm.flip(0.10,i)
                 countQ = pm.check_count(countQ,conn_matrix[j][i])
         # DIFFERENT HYPERCOLUMN
         elif not pm.same_hypercolumn(i,j):
             if i in pm.inh_nrns_set:
-                conn_matrix[j][i] = pm.flip(0.3,i)
+                conn_matrix[j][i] = pm.flip(0.11,i)
                 countAz = pm.check_count(countAz, conn_matrix[j][i])
             else:
-                conn_matrix[j][i] = pm.flip(0.3,i)
+                conn_matrix[j][i] = pm.flip(0.11,i)
                 countAz = pm.check_count(countAz, conn_matrix[j][i])
         #pbar.update(i)
 #pbar.finish()

@@ -32,15 +32,15 @@ for i in range(pm.nrns):
         #"""
             # SAME MINICOLUMN
             if pm.same_minicolumn(i,j):
-                conn_matrix[j][i] = pm.flip(0.032,i)
+                conn_matrix[j][i] = pm.flip(0.028,i)
                 countA = pm.check_count(countA, conn_matrix[j][i])
             #:::
             elif pm.same_hypercolumn(i,j) and not pm.same_minicolumn(i,j):
-                conn_matrix[j][i] = pm.flip(0.3,i)
+                conn_matrix[j][i] = pm.flip(0.11,i)
                 countQ = pm.check_count(countQ,conn_matrix[j][i])
         # DIFFERENT HYPERCOLUMN
         elif not pm.same_hypercolumn(i,j):
-            conn_matrix[j][i] = pm.flip(0.3,i)
+            conn_matrix[j][i] = pm.flip(0.11,i)
             countAz = pm.check_count(countAz, conn_matrix[j][i])
         #pbar.update(i)
 #pbar.finish()

@@ -99,7 +99,7 @@ for i in range(pm.nrns):
                     countB = pm.check_count(countB, conn_matrix[j][i])
         #:::
         elif not pm.same_minicolumn(i,j):
-            conn_matrix[j][i] = pm.flip(0.3,i)
+            conn_matrix[j][i] = pm.flip(0.1,i)
             countQ = pm.check_count(countQ,conn_matrix[j][i])
 
         #pbar.update(i)
@@ -109,7 +109,7 @@ print ("Matrix Created in %.5s seconds." % (time.time() - start_time))
 
 #_________________________________________________________________________________________
 
-"""
+#"""
 print "connections 2/3 = ", count23
 print "connections 4 = ", count4
 print "connections 5 = ", count5
@@ -117,7 +117,7 @@ print "not same minicolumn, same hypercolumn = ",countQ
 print "not same hypercolumn = ",countAz
 print "connections 30%", count23+count4+count5+countQ
 print "connections 70%", countAz
-"""
+#"""
 
 
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -130,7 +130,7 @@ print "Row sums not zero", len(k)
 pm.balanceN(conn_matrix)
 #for i in range(len(k)):
 #    balance(conn_matrix[k[i],:])
-"""
+#"""
 delta =0
 for i in range(pm.nrns):
     if np.sum(conn_matrix[i,:]) > 1e-5:
@@ -170,7 +170,7 @@ for i in conn_matrix[1][:]:
     if i < -1e-4 or i > 1e-4:
         gh+=1
 print gh
-"""
+#"""
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 #"""
 
