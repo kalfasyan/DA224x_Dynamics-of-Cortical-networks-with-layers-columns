@@ -12,8 +12,8 @@ import nest
 
 nrn_type = "iaf_neuron"
 
-exc_nrns_mc = 16
-inh_nrns_mc = 4
+exc_nrns_mc = 64
+inh_nrns_mc = 16
 lr_mc = 3
 mc_hc = 4
 hc = 3
@@ -230,3 +230,28 @@ def check_count(c, n):
         c+=1
     return c
 
+def number_conns(mat,n):
+    zed,pos,neg=[],[],[]
+    for i in range(nrns):
+        zed.append(len(plt.find(np.abs(mat[i,:])) != 0))
+        pos.append(len(plt.find((mat[i,:]) > 0)))
+        neg.append(len(plt.find((mat[i,:]) < 0)))
+    #print pos[n]
+    return zed[n],pos[n],neg[n]
+
+
+def n_where(n,mat):
+    a = [layers23,layers4,layers5,exc_nrns_set,inh_nrns_set]
+    if n in a[0]:
+        print "in Layer23"
+    elif n in a[1]:
+        print "in Layer4"
+    elif n in a[2]:
+        print "in Layer5"
+    if n in a[3]:
+        print "Excitatory"
+    elif n in a[4]:
+        print "Inhibitory"
+    print "(All, Exc, Inh)"
+    print number_conns(mat,n)
+    #return "Done"

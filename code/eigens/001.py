@@ -5,41 +5,27 @@ import itertools
 import matplotlib.pylab as plt
 from scipy import linalg as la
 import time
-from progressbar import *
 from collections import Counter
 import decimal
 import math
 import params001 as pm
-output = open('matrixExport.txt', 'wb')
 
-# Progress bar stuff
-# --------------------------------------------------------
-widgets = ['Working: ', Percentage(), ' ', Bar(marker='=',
-            left='[',right=']'), ' ', ETA(), ' ', FileTransferSpeed()]
-pbar = ProgressBar(widgets=widgets, maxval=pm.nrns)
-#---------------------------------------------------------
 
 start_time = time.time()
 print "Initializing and creating connection matrix..."
 conn_matrix = np.zeros((pm.nrns,pm.nrns))
-#pbar.start()
 count23,count4,count5,countA,countB,countAz,countQ,countW = 0,0,0,0,0,0,0,0
 for i in range(pm.nrns):
     for j in range(pm.nrns):
-        #http://stackoverflow.com/questions/481144/equation-for-testing-if-a-point-is-inside-a-circle
         # SAME HYPERCOLUMN
         if pm.same_hypercolumn(i,j):
-            conn_matrix[j][i] = pm.flip(0.10,i) #28
+            conn_matrix[j][i] = pm.flip(0.0931,i) #28
             countQ = pm.check_count(countQ,conn_matrix[j][i])
         # DIFFERENT HYPERCOLUMN
         elif not pm.same_hypercolumn(i,j):
-            conn_matrix[j][i] = pm.flip(0.11,i) #72
+            conn_matrix[j][i] = pm.flip(0.1071,i) #72
             countAz = pm.check_count(countAz, conn_matrix[j][i])
-        #pbar.update(i)
-#pbar.finish()
 
-        #pbar.update(i)
-#pbar.finish()
 
 print ("Matrix Created in %.5s seconds." % (time.time() - start_time))
 
@@ -115,7 +101,7 @@ print gh
 #"""
 ee = la.eigvals(conn_matrix)
 conn_matrix.dump("001.dat")
-
+print "done"
 
 
 """
@@ -190,11 +176,3 @@ plt.plot(ed[0:-1],hh)
 
 plt.show()
 #"""
-#np.savetxt('matrixExport.txt', conn_matrix, fmt='%.1s')
-#print "\nWrote to matrixExport.txt"
-
-"""
-cmaps(['indexed','Blues','OrRd','PiYG','PuOr',
-                'RdYlBu','RdYlGn','afmhot','binary','copper',
-                'gist_ncar','gist_rainbow','own1','own2'])
-"""

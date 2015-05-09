@@ -5,20 +5,11 @@ import itertools
 import matplotlib.pylab as plt
 from scipy import linalg as la
 import time
-from progressbar import *
 from collections import Counter
 import decimal
 import math
 import params101 as pm
 import pylab as py
-output = open('matrixExport.txt', 'wb')
-
-# Progress bar stuff
-# --------------------------------------------------------
-widgets = ['Working: ', Percentage(), ' ', Bar(marker='=',
-            left='[',right=']'), ' ', ETA(), ' ', FileTransferSpeed()]
-pbar = ProgressBar(widgets=widgets, maxval=pm.nrns)
-#---------------------------------------------------------
 
 start_time = time.time()
 print "Initializing and creating connection matrix..."
@@ -100,11 +91,8 @@ for i in range(pm.nrns):
                     countB = pm.check_count(countB, conn_matrix[j][i])
         #:::
         elif not pm.same_hypercolumn(i,j):
-            conn_matrix[j][i] = pm.flip(0.1,i)
+            conn_matrix[j][i] = pm.flip(0.101,i)
             countQ = pm.check_count(countQ,conn_matrix[j][i])
-
-        #pbar.update(i)
-#pbar.finish()
 
 print ("Matrix Created in %.5s seconds." % (time.time() - start_time))
 
@@ -251,11 +239,3 @@ plt.plot(ed[0:-1],hh)
 
 plt.show()
 #"""
-#np.savetxt('matrixExport.txt', conn_matrix, fmt='%.1s')
-#print "\nWrote to matrixExport.txt"
-
-"""
-cmaps(['indexed','Blues','OrRd','PiYG','PuOr',
-                'RdYlBu','RdYlGn','afmhot','binary','copper',
-                'gist_ncar','gist_rainbow','own1','own2'])
-"""

@@ -13,8 +13,8 @@ import os
 
 
 
-exc_nrns_mc = 16
-inh_nrns_mc = 4
+exc_nrns_mc = 64
+inh_nrns_mc = 16
 lr_mc = 3
 mc_hc = 4
 hc = 3

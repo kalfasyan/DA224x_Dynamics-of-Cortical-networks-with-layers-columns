@@ -19,28 +19,28 @@ neuron_params = {
 neuron_params = {'V_th':-55.0, 'V_reset': -70.0, 't_ref': 2.0, 'g_L':16.7,'C_m':250.0, 'E_ex': 0.0, 'E_in': -80.0, 'tau_syn_ex':0.33,'tau_syn_in': 0.33,'E_L' : -70.}
 #neuron_params = {'V_th':-45.0, 'V_reset': -80.0, 't_ref': 2.0, 'g_L':12.5,'C_m':200.0, 'E_ex': 0.0, 'E_in': -80.0, 'tau_syn_ex':0.3,'tau_syn_in': 2.,'E_L' : -46.}
 
-neuron_params = {'V_th':55.0, 'V_reset': -70.0, 't_ref': 2.0, 'g_L':16.6,'C_m':250.0, 'E_ex': 0.0, 'E_in': -80.0, 'tau_syn_ex':0.2,'tau_syn_in': 2.0,'E_L' : -55.}
+neuron_params = {'V_th':-54.0, 'V_reset': -70.0, 't_ref': 2.0, 'g_L':16.6,'C_m':250.0, 'E_ex': 0.0, 'E_in': -80.0, 'tau_syn_ex':0.2,'tau_syn_in': 2.0,'E_L' : -70.}
 
 # display recordables for illustration
 print 'iaf_cond_alpha recordables: ', nest.GetDefaults('iaf_cond_alpha')['recordables']
 
 # create neuron and multimeter
-n = nest.Create('iaf_cond_exp', 1,neuron_params)
+n = nest.Create('iaf_cond_alpha', 1,neuron_params)
 
 m = nest.Create('multimeter', params = {'withtime': True, 'interval': 0.1, 'record_from': ['V_m', 'g_ex', 'g_in']})
 
-poi = nest.Create('poisson_generator',1,{'rate':250000.})
+poi = nest.Create('poisson_generator',1,{'rate':6000.})
 # Create spike generators and connect
 gex = nest.Create('spike_generator', params = {'spike_times': np.array([500.0, ])})
 gin = nest.Create('spike_generator',  params = {'spike_times': np.array([400.0])})
 
 
-nest.CopyModel("static_synapse","exc",{"weight":8.2, "delay":1.5})
-nest.CopyModel("static_synapse","inh",{"weight":-20., "delay":1.5})
+nest.CopyModel("static_synapse","exc",{"weight":1.4, "delay":1.5})
+nest.CopyModel("static_synapse","inh",{"weight":-0.43, "delay":1.5})
 
 nest.Connect(gex, n, syn_spec="exc") # excitatory
 nest.Connect(gin, n, syn_spec="inh") # inhibitory
-#nest.Connect(poi, n, params={'weight': 1.6}) # inhibitory
+nest.Connect(poi, n, syn_spec='exc') # inhibitory
 nest.Connect(m, n)
 
 # simulate

@@ -2,15 +2,35 @@ import numpy as np
 import matplotlib.pylab as py
 from NeuroTools import signals
 
-sd_filename = './data/111_19_-144_19spike_detector-721-0.gdf'
+prefix = '111_1.3_-18._1.8_5000.'
+sd_filename = './data/'+prefix+'spike_detector-2881-0.gdf'
 data_file = signals.NestFile(sd_filename, with_time = True)
 spikes = signals.load_spikelist(data_file, dims = 1, id_list = range(0,720))
-py.subplot(211)
-py.title("mean rates")
+
+print np.nanmean(spikes.cv_isi())
+print spikes.mean_rate()
+xx = np.loadtxt(sd_filename)
+
+no_neurons = 2880
+bin_size = 5.
+ed = np.arange(100,2e3,bin_size)
+pop_x = np.histogram(xx[:,1],ed)
+pop_hh = pop_x[0]/(bin_size*1e-3)/no_neurons
+
+ff = np.var(pop_hh)/np.mean(pop_hh)
+
+print ff
+py.figure(111)
+py.subplot(411)
+py.title(prefix+"\n mean rates")
 py.plot(spikes.mean_rates())
-py.subplot(212)
+py.subplot(412)
 py.title("cv isi")
 py.plot(spikes.cv_isi())
+py.subplot(413)
+py.plot(spikes.cv_isi(),spikes.mean_rates(),'.')
+py.subplot(414)
+py.plot(ed[0:-1],pop_hh)
 py.show()
 """
 

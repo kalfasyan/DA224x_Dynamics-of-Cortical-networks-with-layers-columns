@@ -5,19 +5,10 @@ import itertools
 import matplotlib.pylab as plt
 from scipy import linalg as la
 import time
-from progressbar import *
 from collections import Counter
 import decimal
 import math
 import params110 as pm
-output = open('matrixExport.txt', 'wb')
-
-# Progress bar stuff
-# --------------------------------------------------------
-widgets = ['Working: ', Percentage(), ' ', Bar(marker='=',
-            left='[',right=']'), ' ', ETA(), ' ', FileTransferSpeed()]
-pbar = ProgressBar(widgets=widgets, maxval=pm.nrns)
-#---------------------------------------------------------
 
 start_time = time.time()
 print "Initializing and creating connection matrix..."
@@ -26,7 +17,6 @@ conn_matrix = np.zeros((pm.nrns,pm.nrns))
 count23,count4,count5,countA,countB,countAz,countQ,countW = 0,0,0,0,0,0,0,0
 for i in range(pm.nrns):
     for j in range(pm.nrns):
-        #http://stackoverflow.com/questions/481144/equation-for-testing-if-a-point-is-inside-a-circle
         if pm.same_minicolumn(i,j):
             if i in pm.layers23 and j in pm.layers23:
                 if pm.both_exc(i,j):
@@ -101,9 +91,6 @@ for i in range(pm.nrns):
         elif not pm.same_minicolumn(i,j):
             conn_matrix[j][i] = pm.flip(0.1,i)
             countQ = pm.check_count(countQ,conn_matrix[j][i])
-
-        #pbar.update(i)
-#pbar.finish()
 
 print ("Matrix Created in %.5s seconds." % (time.time() - start_time))
 
@@ -278,11 +265,3 @@ plt.plot(ed[0:-1],hh)
 
 plt.show()
 #"""
-#np.savetxt('matrixExport.txt', conn_matrix, fmt='%.1s')
-#print "\nWrote to matrixExport.txt"
-
-"""
-cmaps(['indexed','Blues','OrRd','PiYG','PuOr',
-                'RdYlBu','RdYlGn','afmhot','binary','copper',
-                'gist_ncar','gist_rainbow','own1','own2'])
-"""
