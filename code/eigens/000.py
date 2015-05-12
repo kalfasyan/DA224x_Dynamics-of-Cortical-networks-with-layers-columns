@@ -27,7 +27,7 @@ conn_matrix = np.zeros((pm.nrns,pm.nrns))
 count23,count4,count5,countA,countB,countAz,countQ,countW = 0,0,0,0,0,0,0,0
 for i in range(pm.nrns):
     for j in range(pm.nrns):
-        conn_matrix[j][i] = pm.flip(.10,i)
+        conn_matrix[j][i] = pm.flip(.1027,i)
         countAz = pm.check_count(countAz, conn_matrix[j][i])
         #pbar.update(i)
 #pbar.finish()

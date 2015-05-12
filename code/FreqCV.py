@@ -1,25 +1,22 @@
 import numpy as np
 import matplotlib.pylab as py
+import parameters_v1 as pm
 from NeuroTools import signals
 
-prefix = '111_1.3_-18._1.8_5000.'
+prefix = '111_1._-18._1.8_5000.'
 sd_filename = './data/'+prefix+'spike_detector-2881-0.gdf'
 data_file = signals.NestFile(sd_filename, with_time = True)
-spikes = signals.load_spikelist(data_file, dims = 1, id_list = range(0,720))
+idlist = range(0,pm.nrns) #[i for i in (pm.layers4) if i in pm.split_hc[0]]
+spikes = signals.load_spikelist(data_file, t_start=100., t_stop=2000., dims = 1, id_list = idlist)
 
-print np.nanmean(spikes.cv_isi())
-print spikes.mean_rate()
-xx = np.loadtxt(sd_filename)
+print "mean ISI: ",np.nanmean(spikes.cv_isi())
+print "Mean rate: ",spikes.mean_rate()
 
-no_neurons = 2880
-bin_size = 5.
-ed = np.arange(100,2e3,bin_size)
-pop_x = np.histogram(xx[:,1],ed)
-pop_hh = pop_x[0]/(bin_size*1e-3)/no_neurons
+bins = 5.
 
-ff = np.var(pop_hh)/np.mean(pop_hh)
-
-print ff
+a = np.mean(spikes.firing_rate(5.), axis=0)
+fano = np.var(a)/np.mean(a)
+print "Fano factor: ", fano
 py.figure(111)
 py.subplot(411)
 py.title(prefix+"\n mean rates")
@@ -29,8 +26,7 @@ py.title("cv isi")
 py.plot(spikes.cv_isi())
 py.subplot(413)
 py.plot(spikes.cv_isi(),spikes.mean_rates(),'.')
-py.subplot(414)
-py.plot(ed[0:-1],pop_hh)
+spikes.spike_histogram(bins,display=py.subplot(414),normalized=True)
 py.show()
 """
 
@@ -70,4 +66,18 @@ py.figure(5)
 py.plot(cv_isi)
 py.title("cv isi")
 py.show()
+
+
+
+
+
+xx = np.loadtxt(sd_filename)
+no_neurons = 2880 #pm.nrns
+bin_size = 5.
+ed = np.arange(0,no_neurons,bin_size)
+pop_x = np.histogram(xx[:,1],ed)
+pop_hh = pop_x[0]/(bin_size*1e-3)/no_neurons
+
+ff = np.var(pop_hh)/np.mean(pop_hh)
+print "Fano factor:", ff
 """

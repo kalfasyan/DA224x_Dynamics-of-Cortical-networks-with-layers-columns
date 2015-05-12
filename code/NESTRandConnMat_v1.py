@@ -1,15 +1,22 @@
 import nest
 import nest.raster_plot
+import nest.voltage_trace
 import parameters_v1 as pm
 import numpy as np
 import matplotlib.pylab as pl
-import itertools
-import os
 import sys
-import random
 import time
-import pyspike as spk
-import types
+import bokeh.plotting as bk
+
+def mscatter(p, x, y, typestr):
+    p.scatter(x, y, marker=typestr,
+            line_color="#6666ee", fill_color="#ee6666", fill_alpha=0.5, size=12)
+
+def mtext(p, x, y, textstr):
+    p.text(x, y, text=textstr,
+         text_color="#449944", text_align="center", text_font_size="10pt")
+
+
 
 
 file_name = sys.argv[1]
@@ -20,9 +27,8 @@ nest.SetKernelStatus({'local_num_threads':1,'overwrite_files':True,'data_path':'
 start_time = time.time()
 
 """ PARAMETERS """
-conn_dict = {'rule': 'fixed_indegree', 'indegree': pm.nrns}
-conn_dict2 = {'rule': 'fixed_outdegree', 'outdegree': 1}
-
+#conn_dict = {'rule': 'fixed_indegree', 'indegree': pm.nrns}
+#conn_dict2 = {'rule': 'fixed_outdegree', 'outdegree': 1}
 exc = float(sys.argv[2])
 inh = float(sys.argv[3])
 ext = float(sys.argv[4])
@@ -30,7 +36,6 @@ p_rate = float(sys.argv[5])
 nest.CopyModel("static_synapse","excitatory",{"weight": exc, "delay":1.5})
 nest.CopyModel("static_synapse","inh",{"weight": inh,"delay": 1.5})
 nest.CopyModel("static_synapse","ext",{"weight": ext, "delay":1.5})
-
 neuron_params = {'V_th':-55.0, 'V_reset': -70.0, 't_ref': 2.0, 'g_L':16.6,'C_m':250.0, 'E_ex': 0.0, 'E_in': -80.0, 'tau_syn_ex':0.2,'tau_syn_in': 2.0,'E_L' : -70.}
 nest.SetDefaults("iaf_cond_alpha", neuron_params)
 
@@ -55,23 +60,37 @@ for j in range(pm.nrns):
         syn_type = 'inh'
     nest.Connect([Nestrons[j]],nx,'all_to_all',syn_spec=syn_type)
 
-#y=tuple(pm.layers23)
-#x = tuple([i for i in y if i in pm.split_mc[0][1]])
-
 nest.Connect(psn,Nestrons, syn_spec="ext")
-#nest.Connect(psn1,y, syn_spec="ext")
 nest.Connect(Nestrons,spikerec)
 
 """ SIMULATION AND PLOTTING """
 print "Simulating.."
 nest.Simulate(2000.)
-print "Done..\n now plotting..."
+print "Done! Now plotting..."
 
 xx = np.loadtxt('./data/'+prefix+'spike_detector-2881-0.gdf')
 
+"""
 pl.figure(prefix)
 #nest.raster_plot.from_device(spikerec, hist=True)
 pl.plot(xx[:,1],xx[:,0],'.')
-pl.title(prefix)
-pl.savefig('./figures/'+prefix+".", bbox_inches='tight')
-#pl.show()
+#pl.title(prefix)
+#pl.savefig('./figures/'+prefix+".", bbox_inches='tight')
+pl.show()
+"""
+
+
+
+
+
+N = pm.nrns
+x = xx[:,1]
+y = xx[:,0]
+TOOLS="resize,crosshair,pan,wheel_zoom,box_zoom,reset,box_select,lasso_select,save,hover"
+
+p = bk.figure(tools=TOOLS)
+mscatter(p, x,y,"asterisk")
+bk.save(p, filename="./figures/"+prefix+".html")
+#bk.show(p)
+
+
