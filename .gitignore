@@ -1,5 +1,6 @@
 # my own
 data/figures/
+*.pyc
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
