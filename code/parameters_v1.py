@@ -1,7 +1,7 @@
 import random
 import numpy as np
 import itertools
-import matplotlib.pylab as plt
+import pylab as plt
 from scipy import linalg as la
 #import time
 from progressbar import *
@@ -29,10 +29,12 @@ nrns_mc = nrns_hc/mc_hc
 nrns_l23 = nrns_mc*30/100
 nrns_l4 = nrns_mc*20/100
 nrns_l5 = nrns_mc*50/100
+"""
 print nrns,"neurons."
 print nrns_hc, "per hypercolumn in %s" %hc,"hypercolumns."
 print nrns_mc, "per minicolumn in %s" %mc_hc,"minicolumns."
 print nrns_l23, nrns_l4, nrns_l5, "in layers23 layer4 and layer5 respectively"
+"""
 ##############################################################
 """ 2. Creating list of Hypercolumns, list of minicolumns within
     hypercolumns, list of layers within minicolumns within
@@ -244,43 +246,26 @@ def number_conns(mat,n):
 
 def n_where(n,mat):
     a = [layers23,layers4,layers5,exc_nrns_set,inh_nrns_set]
+    st = ""
     if n in a[0]:
-        print "in Layer23"
+        st+= "in Layer23, "
     elif n in a[1]:
-        print "in Layer4"
+        st+="in Layer4, "
     elif n in a[2]:
-        print "in Layer5"
+        st+="in Layer5, "
     if n in a[3]:
-        print "Excitatory"
+        st+="Excitatory"
     elif n in a[4]:
-        print "Inhibitory"
-    print "(All, Exc, Inh)"
-    print number_conns(mat,n)
+        st+="Inhibitory"
+    return st
+    #print "(All, Exc, Inh)"
+    #print number_conns(mat,n)
     #return "Done"
 
-def save(path, ext='png', close=True, verbose=True):
-    # Extract the directory and filename from the given path
-    directory = os.path.split(path)[0]
-    filename = "%s.%s" % (os.path.split(path)[1], ext)
-    if directory == '':
-        directory = '.'
+def choose_EI(layer,hc,mc):
+    x1 = random.choice(tuple([i for i in layer if i in split_mc[hc][mc] and i in exc_nrns_set]))
+    x2 = random.choice(tuple([i for i in layer if i in split_mc[hc][mc] and i in inh_nrns_set]))
+    return int(x1),int(x2)
 
-    # If the directory does not exist, create it
-    if not os.path.exists(directory):
-        os.makedirs(directory)
-
-    # The final path to save to
-    savepath = os.path.join(directory, filename)
-
-    if verbose:
-        print("Saving figure to '%s'..." % savepath),
-
-    # Actually save the figure
-    plt.savefig(savepath)
-
-    # Close it
-    if close:
-        plt.close()
-
-    if verbose:
-        print("Done")
+def choose_Layer(layer,hc,mc):
+    return [i for i in layer if i in split_mc[hc][mc]]
