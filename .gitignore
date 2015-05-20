@@ -2,6 +2,7 @@
 data/figures/
 *.pyc
 papers/papers
+code/figures
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
