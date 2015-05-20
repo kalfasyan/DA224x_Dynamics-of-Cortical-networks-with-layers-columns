@@ -3,11 +3,9 @@ import pylab as py
 import parameters_v1 as pm
 from scipy.stats.stats import pearsonr
 import sys
+from pandas import DataFrame as dt
 
-#orig_stdout = sys.stdout
-f = file('corrOutput.txt', 'a')
-#sys.stdout = f
-
+fname = sys.argv[5]#'000'
 
 hc = int(sys.argv[1])
 mc = int(sys.argv[2])
@@ -18,7 +16,7 @@ lrdict = {'23': pm.layers23,
           '4': pm.layers4,
           '5': pm.layers5}
 
-prefix = '111_1._-18._1.8_5000.'
+prefix = fname+'_1._-18._1.8_5000.'
 sd_filename = './data/'+prefix+'spike_detector-2881-0.gdf'
 
 
@@ -39,11 +37,10 @@ for i in range(len(xx[:,1])):
         cor2[i] = xx[:,:][i]
 hist_cor2 = np.histogram(cor2[:,1],ed)
 
-print hc,mc,lr1,lr2,pearsonr(hist_cor1[0],hist_cor2[0])[0]
+df = dt({'hypercolumn': hc,
+         "layerA":lr1,
+         'minicolumn': mc,
+         "layerB":lr2},
+        index=[pearsonr(hist_cor1[0],hist_cor2[0])[0]])
 
-
-#sys.stdout = orig_stdout
-#f.close()
-#py.plot(ed[0:-1],hist_cor1[0])
-#py.plot(ed[0:-1],hist_cor2[0])
-#py.show()
+df.to_excel('./test/'+fname+"_"+str(hc)+str(mc)+str(lr1)+str(lr2)+'.xlsx')
