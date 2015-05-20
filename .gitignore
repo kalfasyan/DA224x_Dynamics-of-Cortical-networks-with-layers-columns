@@ -1,6 +1,7 @@
 # my own
 data/figures/
 *.pyc
+papers/papers
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
