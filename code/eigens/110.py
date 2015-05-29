@@ -1,13 +1,6 @@
-from scipy import stats
-import random
 import numpy as np
-import itertools
-import matplotlib.pylab as plt
 from scipy import linalg as la
 import time
-from collections import Counter
-import decimal
-import math
 import params110 as pm
 
 start_time = time.time()

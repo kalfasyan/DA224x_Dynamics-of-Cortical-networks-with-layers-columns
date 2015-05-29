@@ -1,13 +1,6 @@
-from scipy import stats
-import random
 import numpy as np
-import itertools
-import matplotlib.pylab as plt
 from scipy import linalg as la
 import time
-from collections import Counter
-import decimal
-import math
 import params100 as pm
 #----------------------------------------
 
@@ -18,7 +11,6 @@ conn_matrix = np.zeros((pm.nrns,pm.nrns))
 count23,count4,count5,countA,countB,countAz,countQ,countW = 0,0,0,0,0,0,0,0
 for i in range(pm.nrns):
     for j in range(pm.nrns):
-        #http://stackoverflow.com/questions/481144/equation-for-testing-if-a-point-is-inside-a-circle
         if i in pm.layers23 and j in pm.layers23:
             if pm.both_exc(i,j):
                 conn_matrix[j][i]= pm.flip(0.26,i)

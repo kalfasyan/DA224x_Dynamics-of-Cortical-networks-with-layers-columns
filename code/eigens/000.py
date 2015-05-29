@@ -1,24 +1,9 @@
-from scipy import stats
-import random
 import numpy as np
-import itertools
-import matplotlib.pylab as plt
 from scipy import linalg as la
 import time
-from progressbar import *
-from collections import Counter
-import decimal
-import math
 import params000 as pm
-#import pylab as py
-output = open('matrixExport.txt', 'wb')
 
-# Progress bar stuff
-# --------------------------------------------------------
-widgets = ['Working: ', Percentage(), ' ', Bar(marker='=',
-            left='[',right=']'), ' ', ETA(), ' ', FileTransferSpeed()]
-pbar = ProgressBar(widgets=widgets, maxval=pm.nrns)
-#---------------------------------------------------------
+
 
 start_time = time.time()
 print "Initializing and creating connection matrix..."
@@ -29,9 +14,6 @@ for i in range(pm.nrns):
     for j in range(pm.nrns):
         conn_matrix[j][i] = pm.flip(.1027,i)
         countAz = pm.check_count(countAz, conn_matrix[j][i])
-        #pbar.update(i)
-#pbar.finish()
-
 
 #"""
 

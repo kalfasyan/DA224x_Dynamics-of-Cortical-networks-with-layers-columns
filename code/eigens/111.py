@@ -1,15 +1,7 @@
-from scipy import stats
-import random
 import numpy as np
-import itertools
-import matplotlib.pylab as plt
 from scipy import linalg as la
 import time
-from collections import Counter
-import decimal
-import math
 import parameters_v1 as pm
-#import pylab as py
 
 start_time = time.time()
 print "Initializing and creating connection matrix..."
@@ -20,7 +12,6 @@ for i in range(pm.nrns):
     for j in range(pm.nrns):
         # SAME HYPERCOLUMN
         if pm.same_hypercolumn(i,j):
-        #"""
             # SAME MINICOLUMN
             if pm.same_minicolumn(i,j):
                 if i in pm.layers23 and j in pm.layers23:

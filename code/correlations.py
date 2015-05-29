@@ -1,11 +1,12 @@
+# run correlations.py 2 3 4 5 001
+
 import numpy as np
-import pylab as py
 import parameters_v1 as pm
 from scipy.stats.stats import pearsonr
 import sys
 from pandas import DataFrame as dt
 
-fname = sys.argv[5]#'000'
+fname = sys.argv[5] #for example: '101'
 
 hc = int(sys.argv[1])
 mc = int(sys.argv[2])

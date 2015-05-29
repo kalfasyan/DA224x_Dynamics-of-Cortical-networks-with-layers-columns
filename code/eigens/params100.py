@@ -2,13 +2,8 @@ import random
 import numpy as np
 import itertools
 import matplotlib.pylab as plt
-from scipy import linalg as la
-import time
-from progressbar import *
-from collections import Counter
 import decimal
 import math
-import nest
 
 nrn_type = "iaf_neuron"
 
@@ -24,9 +19,9 @@ sigma2 = math.sqrt(1/decimal.Decimal(nrns))
 mu = 0
 nrns_hc = nrns/hc
 nrns_mc = nrns_hc/mc_hc
-nrns_l23 = nrns_mc*30/100
-nrns_l4 = nrns_mc*20/100
-nrns_l5 = nrns_mc*50/100
+nrns_l23 = nrns_mc*34/100
+nrns_l4 = nrns_mc*33/100
+nrns_l5 = nrns_mc*33/100
 print nrns,"neurons."
 print nrns_hc, "per hypercolumn in %s" %hc,"hypercolumns."
 print nrns_mc, "per minicolumn in %s" %mc_hc,"minicolumns."

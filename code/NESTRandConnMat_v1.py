@@ -8,16 +8,16 @@ import sys
 import time
 import bokeh.plotting as bk
 
+
+""" Functions for Bokeh plotting """
+#-----------------------------------------------------------------------------
 def mscatter(p, x, y, typestr):
     p.scatter(x, y, marker=typestr,
             line_color="#6666ee", fill_color="#ee6666", fill_alpha=0.5, size=12)
-
 def mtext(p, x, y, textstr):
     p.text(x, y, text=textstr,
          text_color="#449944", text_align="center", text_font_size="10pt")
-
-
-
+#-----------------------------------------------------------------------------
 
 file_name = sys.argv[1]
 conmat = np.load("eigens/"+file_name+".dat")
@@ -25,8 +25,6 @@ prefix = file_name+"_"+sys.argv[2]+"_"+sys.argv[3]+"_"+sys.argv[4]+"_"+sys.argv[
 nest.ResetKernel()
 nest.SetKernelStatus({'local_num_threads':1,'overwrite_files':True,'data_path':'./data/','data_prefix':prefix})
 start_time = time.time()
-
-
 
 
 """ PARAMETERS """
@@ -43,16 +41,12 @@ neuron_params = {'V_th':-55.0, 'V_reset': -70.0, 't_ref': 2.0, 'g_L':16.6,'C_m':
 nest.SetDefaults("iaf_cond_alpha", neuron_params)
 
 
-
-
 """ NEST CREATIONS """
 Nestrons = nest.Create('iaf_cond_alpha',pm.nrns)#,params={'I_e':350.})
 spikerec = nest.Create('spike_detector',1)# len(pm.split_lr23)+len(pm.split_lr4)+len(pm.split_lr5))
 nest.SetStatus(spikerec,{'to_file':True,'to_memory':False, 'start':100.})
 psn = nest.Create('poisson_generator', 1, {'rate':p_rate}) #1150
 psn1 = nest.Create('poisson_generator', 1, {'rate': p_rate/5.})
-
-
 
 
 """ CONNECTIONS """
@@ -73,15 +67,12 @@ nest.Connect(psn,Nestrons, syn_spec="ext")
 nest.Connect(Nestrons,spikerec)
 
 
-
-
 """ SIMULATION AND PLOTTING """
 print "Simulating.."
 nest.Simulate(2000.)
 print "Done! Now plotting..."
 
 xx = np.loadtxt('./data/'+prefix+'spike_detector-2881-0.gdf')
-
 
 pl.figure(prefix)
 #nest.raster_plot.from_device(spikerec, hist=True)

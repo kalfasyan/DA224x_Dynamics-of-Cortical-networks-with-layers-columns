@@ -2,16 +2,8 @@ import random
 import numpy as np
 import itertools
 import pylab as plt
-from scipy import linalg as la
-#import time
-from progressbar import *
-#from collections import Counter
 import decimal
 import math
-#import nest
-import os
-
-
 
 exc_nrns_mc = 64
 inh_nrns_mc = 16
@@ -26,9 +18,9 @@ sigma2 = math.sqrt(1/decimal.Decimal(nrns))
 mu = 0
 nrns_hc = nrns/hc
 nrns_mc = nrns_hc/mc_hc
-nrns_l23 = nrns_mc*30/100
-nrns_l4 = nrns_mc*20/100
-nrns_l5 = nrns_mc*50/100
+nrns_l23 = nrns_mc*34/100
+nrns_l4 = nrns_mc*33/100
+nrns_l5 = nrns_mc*33/100
 """
 print nrns,"neurons."
 print nrns_hc, "per hypercolumn in %s" %hc,"hypercolumns."
@@ -82,8 +74,6 @@ exc = [None for i in range(len(exc_nrns_set))]
 inh = [None for i in range(len(inh_nrns_set))]
 
 #################### FUNCTIONS #####################################
-
-
 
 """ Checks if 2 neurons belong in the same hypercolumn """
 def same_hypercolumn(q,w):
