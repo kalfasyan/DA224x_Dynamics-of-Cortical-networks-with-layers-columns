@@ -233,7 +233,6 @@ def number_conns(mat,n):
     #print pos[n]
     return zed[n],pos[n],neg[n]
 
-
 def n_where(n,mat):
     a = [layers23,layers4,layers5,exc_nrns_set,inh_nrns_set]
     st = ""
@@ -259,3 +258,38 @@ def choose_EI(layer,hc,mc):
 
 def choose_Layer(layer,hc,mc):
     return [i for i in layer if i in split_mc[hc][mc]]
+
+def choose_LH(layer,hc):
+    return [i for i in layer if i in split_hc[hc]]
+
+def choose_L(layer):
+    return [i for i in layer]
+
+""" given a filename, returns tha laminar components as lists of neuron ids """
+def laminar_components(filename):
+    lam_comps,comps_names = [],[]
+    if filename == '111' or filename== '000':
+        for i in range(hc):
+            for j in range(mc_hc):
+               lam_comps.append(choose_Layer(layers23,i,j))
+               comps_names.append("L23 hc"+str(i)+" mc"+str(j))
+               lam_comps.append(choose_Layer(layers4,i,j))
+               comps_names.append("L4 hc"+str(i)+" mc"+str(j))
+               lam_comps.append(choose_Layer(layers5,i,j))
+               comps_names.append("L5 hc"+str(i)+" mc"+str(j))
+    elif filename == '101':
+        for i in range(hc):
+           lam_comps.append(choose_LH(layers23,i))
+           comps_names.append("L23 hc"+str(i))
+           lam_comps.append(choose_LH(layers4,i))
+           comps_names.append("L4 hc"+str(i))
+           lam_comps.append(choose_LH(layers5,i))
+           comps_names.append("L5 hc"+str(i))
+    elif filename == '100':
+       lam_comps.append(choose_L(layers23))
+       comps_names.append("L23")
+       lam_comps.append(choose_L(layers4))
+       comps_names.append("L4")
+       lam_comps.append(choose_L(layers5))
+       comps_names.append("L5")
+    return lam_comps, comps_names

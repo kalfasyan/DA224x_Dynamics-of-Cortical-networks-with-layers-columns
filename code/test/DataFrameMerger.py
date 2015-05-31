@@ -1,7 +1,7 @@
 import os
 import pandas as pd
 
-fname = '001'
+fname = '000'
 
 path = os.getcwd()
 files = os.listdir(path)
@@ -13,4 +13,6 @@ for f in files_xls:
     df = df.append(data)
 
 df.sort_index(inplace=True)
+df = df.sort(['from_to'])
 df.to_excel('Pandas'+fname+'.xlsx')
+print "Done!"
