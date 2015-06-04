@@ -1,22 +1,24 @@
-# run correlations.py 1 0 23 5 001
+# run correlations.py 100
 import glob
 import numpy as np
 import parameters_v1 as pm
 from scipy.stats.stats import pearsonr
 import sys
-from pandas import DataFrame as dt
 import pylab as py
-
 
 fname = sys.argv[1] #for example: '101'
 sd_filename = glob.glob('./data/'+fname+'*1.0_-17*.gdf')[0]
 
+
+""" RETRIEVING LAMINAR COMPONENTS, NAMES """
 layersets,flags = pm.laminar_components(fname)
 
+""" loading file, collecting neuron ids and creating range for histogram """
 xx = np.loadtxt(sd_filename)
 n_id = xx[:,0]
 ed = np.arange(100,2e+3,5.)
 pop_act,act_names = [],[]
+
 
 """ CREATING POPULATION ACTIVITIES """
 for i in range(len(layersets)):
@@ -26,6 +28,7 @@ for i in range(len(layersets)):
             cor1[j] = xx[:,:][j]
     pop_act.append(np.histogram(cor1[:,1],ed)[0])
     act_names.append(flags[i])
+
 
 """ CREATING THE CORRELATION MATRIX """
 pearson_mat = np.zeros((len(pop_act),len(pop_act)))
@@ -38,7 +41,6 @@ for i in range(len(pop_act)):
 
 
 """ PLOTTING """
-
 fig,ax = py.subplots()
 
 # turn off the frame

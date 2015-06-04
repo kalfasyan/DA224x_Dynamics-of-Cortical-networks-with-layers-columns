@@ -265,6 +265,9 @@ def choose_LH(layer,hc):
 def choose_L(layer):
     return [i for i in layer]
 
+def choose_LM(layer,mc):
+    return [i for i in layer if i in mc]
+
 """ given a filename, returns tha laminar components as lists of neuron ids """
 def laminar_components(filename):
     lam_comps,comps_names = [],[]
@@ -292,4 +295,12 @@ def laminar_components(filename):
        comps_names.append("L4")
        lam_comps.append(choose_L(layers5))
        comps_names.append("L5")
+    elif filename == '110':
+        for i in range(len(minitemp)):
+           lam_comps.append(choose_LM(layers23,minitemp[i]))
+           comps_names.append("L23 mc"+str(i))
+           lam_comps.append(choose_LM(layers4,minitemp[i]))
+           comps_names.append("L4 mc"+str(i))
+           lam_comps.append(choose_LM(layers5,minitemp[i]))
+           comps_names.append("L5 mc"+str(i))
     return lam_comps, comps_names
