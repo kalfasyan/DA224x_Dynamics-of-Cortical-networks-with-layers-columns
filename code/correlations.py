@@ -66,4 +66,4 @@ for y in range(pearson_mat.shape[0]):
 ax.grid(False)
 ax = py.gca()
 #py.show()
-py.savefig('./figures/correlation'+sd_filename[7:]+".", bbox_inches='tight')
+py.savefig('./correlation'+sd_filename[7:]+".", bbox_inches='tight')

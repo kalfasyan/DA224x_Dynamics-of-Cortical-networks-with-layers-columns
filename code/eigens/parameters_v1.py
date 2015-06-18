@@ -27,10 +27,12 @@ nrns_mc = nrns_hc/mc_hc
 nrns_l23 = nrns_mc*34/100
 nrns_l4 = nrns_mc*33/100
 nrns_l5 = nrns_mc*33/100
+"""
 print nrns,"neurons."
 print nrns_hc, "per hypercolumn in %s" %hc,"hypercolumns."
 print nrns_mc, "per minicolumn in %s" %mc_hc,"minicolumns."
 print nrns_l23, nrns_l4, nrns_l5, "in layers23 layer4 and layer5 respectively"
+"""
 ##############################################################
 """ 2. Creating list of Hypercolumns, list of minicolumns within
     hypercolumns, list of layers within minicolumns within
@@ -230,3 +232,67 @@ def check_count(c, n):
         c+=1
     return c
 
+
+def choose_EI(layer,hc,mc):
+    x1 = random.choice(tuple([i for i in layer if i in split_mc[hc][mc] and i in exc_nrns_set]))
+    x2 = random.choice(tuple([i for i in layer if i in split_mc[hc][mc] and i in inh_nrns_set]))
+    return int(x1),int(x2)
+
+def choose_Layer(layer,hc,mc):
+    return [i for i in layer if i in split_mc[hc][mc]]
+
+def choose_LH(layer,hc):
+    return [i for i in layer if i in split_hc[hc]]
+
+def choose_L(layer):
+    return [i for i in layer]
+
+def choose_LM(layer,mc):
+    return [i for i in layer if i in mc]
+
+def choose_MH(hc,mc):
+    return [i for i in split_mc[hc][mc]]
+
+""" given a filename, returns tha laminar components as lists of neuron ids """
+def laminar_components(filename):
+    comps,comps_names = [],[]
+    if filename == '111' or filename== '000':
+        for i in range(hc):
+            for j in range(mc_hc):
+               comps.append(choose_Layer(layers23,i,j))
+               comps_names.append("L23 hc"+str(i)+" mc"+str(j))
+               comps.append(choose_Layer(layers4,i,j))
+               comps_names.append("L4 hc"+str(i)+" mc"+str(j))
+               comps.append(choose_Layer(layers5,i,j))
+               comps_names.append("L5 hc"+str(i)+" mc"+str(j))
+    elif filename == '101':
+        for i in range(hc):
+           comps.append(choose_LH(layers23,i))
+           comps_names.append("L23 hc"+str(i))
+           comps.append(choose_LH(layers4,i))
+           comps_names.append("L4 hc"+str(i))
+           comps.append(choose_LH(layers5,i))
+           comps_names.append("L5 hc"+str(i))
+    elif filename == '100':
+       comps.append(choose_L(layers23))
+       comps_names.append("L23")
+       comps.append(choose_L(layers4))
+       comps_names.append("L4")
+       comps.append(choose_L(layers5))
+       comps_names.append("L5")
+    elif filename == '110':
+        for i in range(len(minitemp)):
+           comps.append(choose_LM(layers23,minitemp[i]))
+           comps_names.append("L23 mc"+str(i))
+           comps.append(choose_LM(layers4,minitemp[i]))
+           comps_names.append("L4 mc"+str(i))
+           comps.append(choose_LM(layers5,minitemp[i]))
+           comps_names.append("L5 mc"+str(i))
+    elif filename == '011':
+        for i in range(hc):
+            for j in range(mc_hc):
+                comps.append(choose_MH(i,j))
+                comps_names.append("hc"+str(i)+" mc"+str(j))
+    return comps, comps_names
+
+print laminar_components('011')
