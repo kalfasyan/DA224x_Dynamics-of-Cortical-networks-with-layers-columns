@@ -3,33 +3,64 @@ import numpy as np
 import pylab as py
 import itertools
 
-modelname = '011'
+modelname = '101'
 c1 = np.load(modelname+'.dat')
-counter = np.zeros((3,3))
+#c1 = np.random.random_integers(-5,5,size=(10,10))
 
 """ Finds the targets of laminar component """
-def targets_of_comp(mat, layer):
-    targets = []
-    # Iterating sources and finding targets
+def targets_of(mat, comp):
+    cons = [[] for i in range(len(mat))]
     for j in range(len(mat)):
-        targets.append( py.find( (np.abs(c1[:,j])>0.) & (j in layer) ) )
-    return set(list(itertools.chain(*targets)))
+        d = py.find((np.abs(mat[:,j]>0.)))#& (j in comp)))
+        cons[j] = d.tolist()
+    return cons
 
-s,labels = [],[]
-for i in range(len(pm.laminar_components(modelname)[0])):
-    s.append(targets_of_comp(c1,pm.laminar_components(modelname)[0][i]))
-    labels.append(pm.laminar_components(modelname)[1][i])
+comps = pm.laminar_components(modelname)[0]
 
-intersect = np.zeros((len(s),len(s)))
+print len(targets_of(c1,comps[0]))
+a = targets_of(c1,comps[0])
+d = np.zeros((len(a),len(a)))
 
-for i in range(len(s)):
-    for j in range(len(s)):
-        intersect[i][j] = len(set.intersection(s[i],s[j]))
+for i in range(len(a)):
+    for j in range(len(a)):
+        d[i][j] = len(list(set(a[i]) & set(a[j])))
 
-print intersect
+print d
+x1 = np.reshape(d,(1,2880**2))
+x2 = x1.flatten()
+ed = np.arange(0,400,1)
+hh,edx = np.histogram(x2,ed)
+py.figure(1004)
+py.plot(ed[0:-1],hh)
+py.show()
+"""
+for i in range(len(components)):
+    A = targets_of(c1,components[i])
+    for j in range(len(components)):
+        B = targets_of(c1,components[j])
+        aset = set([tuple(x) for x in A])
+        bset = set([tuple(x) for x in B])
+        print len(np.array([x for x in aset & bset]))-1
 
 
-""" PLOTTING """
+
+print "Done!"
+
+intersect = np.zeros((len(components),len(components)))
+
+for i in range(len(components)):
+    t1 = targets_of(c1,components[i])
+    for j in range(len(components)):
+        t2 = targets_of(c1,components[j])
+        intersect[i][j] = len(list(set(map(tuple,t1)).intersection(set(map(tuple,t2)))))
+
+#print list(set(map(tuple,t1)).intersection(set(map(tuple,t2))))
+
+py.imshow(intersect,interpolation='none',extent=[0,len(components),0,len(components)])
+py.show()
+
+
+
 fig,ax = py.subplots()
 #py.imshow(intersect,interpolation='none',extent=[0,len(s),0,len(s)])
 
@@ -57,3 +88,5 @@ for label in im.axes.xaxis.get_ticklabels():
 ax.grid(False)
 ax = py.gca()
 py.show()
+
+"""

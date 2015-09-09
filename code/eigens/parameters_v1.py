@@ -233,6 +233,24 @@ def check_count(c, n):
     return c
 
 
+def n_where(n,mat):
+    a = [layers23,layers4,layers5,exc_nrns_set,inh_nrns_set]
+    st = ""
+    if n in a[0]:
+        st+= "in Layer23, "
+    elif n in a[1]:
+        st+="in Layer4, "
+    elif n in a[2]:
+        st+="in Layer5, "
+    if n in a[3]:
+        st+="Excitatory"
+    elif n in a[4]:
+        st+="Inhibitory"
+    return st
+    #print "(All, Exc, Inh)"
+    #print number_conns(mat,n)
+    #return "Done"
+
 def choose_EI(layer,hc,mc):
     x1 = random.choice(tuple([i for i in layer if i in split_mc[hc][mc] and i in exc_nrns_set]))
     x2 = random.choice(tuple([i for i in layer if i in split_mc[hc][mc] and i in inh_nrns_set]))
@@ -295,4 +313,4 @@ def laminar_components(filename):
                 comps_names.append("hc"+str(i)+" mc"+str(j))
     return comps, comps_names
 
-print laminar_components('011')
+#print laminar_components('011')

@@ -78,8 +78,8 @@ pl.figure(prefix)
 #nest.raster_plot.from_device(spikerec, hist=True)
 pl.plot(xx[:,1],xx[:,0],'.')
 #pl.title(prefix)
-pl.savefig('./figures/'+prefix+".", bbox_inches='tight')
-#pl.show()
+#pl.savefig('./figures/'+prefix+".", bbox_inches='tight')
+pl.show()
 
 
 

@@ -3,7 +3,7 @@ import matplotlib.pylab as py
 import parameters_v1 as pm
 from NeuroTools import signals
 
-prefix = '111_1._-18._1.8_5000.'
+prefix = '111_1.1_-17.0_1.8_4700.0'
 sd_filename = './data/'+prefix+'spike_detector-2881-0.gdf'
 data_file = signals.NestFile(sd_filename, with_time = True)
 
@@ -27,7 +27,7 @@ pop_hh = pop_x[0]/(bins*1e-3)/pm.nrns
 ff = np.var(pop_hh)/np.mean(pop_hh)
 
 print "mean ISI: ",np.nanmean(spikes.cv_isi())
-print "Mean rate: ",spikes.mean_rate()
+print "Mean rate: ", np.mean(pop_hh)
 print "Fano factor: ", ff
 
 
@@ -68,7 +68,7 @@ py.subplot(514)
 py.plot(spikes2.cv_isi(),spikes2.mean_rates(),'.')
 spikes2.spike_histogram(bins,display=py.subplot(515),normalized=True)
 #"""
-
+print "Firing rate: %.2f" % (len(xx[:,0])/2000.*1000./2880.)
 py.show()
 
 """

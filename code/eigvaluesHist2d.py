@@ -1,3 +1,11 @@
+"""
+Script to create a 2d histogram of eigenvalue spectra for each model
+fnames : contains the names for each model
+
+Instructions:   Set 't' equal to the fnames' list item corresponding to the
+                model that you want to plot its 2d histogram of its eigenvalue
+                spectra.
+"""
 import numpy as np
 from scipy import linalg as la
 import pylab as py
@@ -17,9 +25,9 @@ for i in range(len(fnames)):
     conn_matrix[i] = np.load('./dumps/'+fnames[i]+'conmat.dat')
     eig[i] = np.load('./dumps/'+fnames[i]+'eigvals.dat')
 
-print len(eig[0])
 
-t=6
+print fnames
+t=7
 print fnames[t]
 trials = [eig[t]]
 

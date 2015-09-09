@@ -1,9 +1,8 @@
 # my own
 data/figures/
 *.pyc
-papers/papers/
-code/figures/
-code/data/
+papers/papers
+code/figures
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
