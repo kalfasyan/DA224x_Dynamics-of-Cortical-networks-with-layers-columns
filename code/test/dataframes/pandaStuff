@@ -1,7 +1,0 @@
-df=pd.read_excel('Pandas101.xlsx')
-df = df.sort(['hypercolumn','minicolumn','layerA','layerB'])
-cols = df.columns.tolist()
-cols = cols[-1:]+cols[:-1]
-df = df[cols]
-df.to_excel("Pandas101.xlsx")
-
