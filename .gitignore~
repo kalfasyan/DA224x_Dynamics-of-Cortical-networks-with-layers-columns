@@ -1,8 +1,9 @@
 # my own
 data/figures/
 *.pyc
-papers/papers
-code/figures
+papers/papers/
+code/figures/
+code/data/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -58,3 +59,4 @@ docs/_build/
 
 # PyBuilder
 target/
+*.db

@@ -4,6 +4,7 @@ data/figures/
 papers/papers/
 code/figures/
 code/data/
+*.gdf
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
