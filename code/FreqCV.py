@@ -1,3 +1,7 @@
+"""
+Given a data file name (prefix) which contains modelname_exc_inh_1.8_poisson
+the scripts calculates mean ISI, Mean rate and Fano factor using NeuroTools.signals
+"""
 import numpy as np
 import matplotlib.pylab as py
 import parameters_v1 as pm

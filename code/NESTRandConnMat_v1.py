@@ -1,3 +1,16 @@
+"""
+SIMULATION SCRIPT
+
+Here the filename (e.g. 111) is given as first argument (sys.argv[1]), then in order:
+The excitatory weights
+The inhibitory weights
+Poisson weights (1.8)
+Poisson rate
+
+Uses nest to create connections with given parameters, simulate, and plot a raster
+
+Plotting can be done with Bokeh also, by uncommenting the final part of the script.
+"""
 import nest
 import nest.raster_plot
 import nest.voltage_trace
