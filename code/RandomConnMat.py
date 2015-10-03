@@ -1,3 +1,7 @@
+"""
+Creates the connection matrix for 111
+"""
+
 from scipy import stats
 import random
 import numpy as np
@@ -244,15 +248,17 @@ hh_imag,ed1 = np.histogram(ee.imag,ed_ev)
 
 plt.figure(1)
 #plt.clf()
-plt.subplot(3,2,1)
+#plt.subplot(3,2,1)
 plt.scatter(ee.real,ee.imag)
-plt.plot(sx,sy,'r')
-plt.plot(15*sx,15*sy,'g')
+#plt.plot(sx,sy,'r')
+#plt.plot(20*sx,20*sy,'g')
 #plt.pcolor(conn_matrix, cmap=plt.cm.Blues)
-plt.title("%.8s variance," % pm.sigma**2 +str(pm.mu)+" mean")
+#plt.title("%.8s variance," % pm.sigma**2 +str(pm.mu)+" mean")
 plt.axis('equal')
 plt.xlim(min(ed_ev),max(ed_ev))
 plt.ylim(min(ed_ev),max(ed_ev))
+plt.xlabel('Real')
+plt.ylabel('Imag')
 #plt.show()
 
 plt.subplot(3,2,2)

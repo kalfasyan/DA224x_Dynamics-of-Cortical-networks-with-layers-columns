@@ -21,12 +21,12 @@ nrns_mc = nrns_hc/mc_hc
 nrns_l23 = nrns_mc*34/100
 nrns_l4 = nrns_mc*33/100
 nrns_l5 = nrns_mc*33/100
-"""
+
 print nrns,"neurons."
 print nrns_hc, "per hypercolumn in %s" %hc,"hypercolumns."
 print nrns_mc, "per minicolumn in %s" %mc_hc,"minicolumns."
 print nrns_l23, nrns_l4, nrns_l5, "in layers23 layer4 and layer5 respectively"
-"""
+
 ##############################################################
 """ 2. Creating list of Hypercolumns, list of minicolumns within
     hypercolumns, list of layers within minicolumns within

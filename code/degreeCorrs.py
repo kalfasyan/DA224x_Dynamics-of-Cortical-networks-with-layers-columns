@@ -1,92 +1,73 @@
-import parameters_v1 as pm
+"""
+Finds and plots percentage of pairs and number of shared connections of neurons
+Specifically tweaked now to plot two models in the same plot.
+"""
 import numpy as np
 import pylab as py
-import itertools
+import sys
+from sys import stdout
+from time import sleep
 
-modelname = '101'
-c1 = np.load('./eigens/'+modelname+'.dat')
-#c1 = np.random.random_integers(-5,5,size=(10,10))
+modelname1  = '100'#sys.argv[1]#001
+figurename1 = 'L'
 
-""" Finds the targets of laminar component """
-def targets_of(mat, comp):
-    cons = [[] for i in range(len(mat))]
-    for j in range(len(mat)):
-        d = py.find((np.abs(mat[:,j]>0.)))#& (j in comp)))
-        cons[j] = d.tolist()
-    return cons
+modelname2  = '101'
+figurename2 = 'LH'
 
-comps = pm.laminar_components(modelname)[0]
+""" -------------------------------------------------------- """
+def targets_of(mat):
+    """ Finds the targets of each neuron """
+    neuron_conns = [[] for i in range(len(mat))]
+    for jj in range(len(mat)):
+        target_ids = py.find((np.abs(mat[:,jj])>0.))
+        neuron_conns[jj] = target_ids.tolist()
+    return neuron_conns
 
-print len(targets_of(c1,comps[0]))
-a = targets_of(c1,comps[0])
-d = np.zeros((len(a),len(a)))
+def testor(modelname,figurename,clr):
+    c1 = np.load('./eigens/'+modelname+'.dat')
+    print len(targets_of(c1))
+    a = targets_of(c1)
+    degcor = np.zeros((len(a),len(a)))
+    geo_mean = np.zeros((len(a),len(a)))
+    norm_deg_corr = np.zeros((len(a),len(a)))
 
-for i in range(len(a)):
-    for j in range(len(a)):
-        d[i][j] = len(list(set(a[i]) & set(a[j])))
 
-print d
-x1 = np.reshape(d,(1,2880**2))
-x2 = x1.flatten()
-ed = np.arange(0,400,1)
-hh,edx = np.histogram(x2,ed)
-py.figure(1004)
-py.plot(ed[0:-1],hh)
+    for i in range(len(a)):
+        for j in range(len(a)):
+            if i > j:
+                ax = len(list(set(a[i]) & set(a[j])))
+                bx = np.mean((len(a[i]), len(a[j])))
+                degcor[i][j] = ax
+                geo_mean[i][j] = bx
+                norm_deg_corr[i][j] = float(ax)/float(bx)
+            #else:
+            #    degcor[i][j] = len(list(set(a[i]) & set(a[j])))
+        if i % 100 == 0.:
+            stdout.write("\r%d" % int(float(i)/float(len(a))*100))
+            stdout.write("%")
+            stdout.flush()
+            sleep(1)
+    stdout.write("\n")
+
+    N= 2880
+    total_pairs = N*(N-1)/2.
+    print degcor
+
+    x1 = np.reshape(degcor,(1,N**2))
+    x2 = x1.flatten()
+    ed = np.arange(1,np.max(x2),1)
+    hh,edx = np.histogram(x2,ed)
+    #py.figure(modelname)
+    py.plot(ed[0:-1],100*hh/total_pairs, clr)
+    py.xlim(0,np.max(x2))
+""" ------------------------------------------------------- """
+
+py.figure(modelname1+" "+modelname2)
+testor(modelname1,figurename1,'r')
+testor(modelname2,figurename2, 'b')
+py.title(figurename1+" and "+ figurename2+' degree correlations')
+py.ylabel('Percentage % of pairs')
+py.xlabel('Number of shared connections')
+py.legend([figurename1,figurename2])
+#py.savefig(modelname+'.png', bbox_inches='tight')
 py.show()
-"""
-for i in range(len(components)):
-    A = targets_of(c1,components[i])
-    for j in range(len(components)):
-        B = targets_of(c1,components[j])
-        aset = set([tuple(x) for x in A])
-        bset = set([tuple(x) for x in B])
-        print len(np.array([x for x in aset & bset]))-1
-
-
-
-print "Done!"
-
-intersect = np.zeros((len(components),len(components)))
-
-for i in range(len(components)):
-    t1 = targets_of(c1,components[i])
-    for j in range(len(components)):
-        t2 = targets_of(c1,components[j])
-        intersect[i][j] = len(list(set(map(tuple,t1)).intersection(set(map(tuple,t2)))))
-
-#print list(set(map(tuple,t1)).intersection(set(map(tuple,t2))))
-
-py.imshow(intersect,interpolation='none',extent=[0,len(components),0,len(components)])
-py.show()
-
-
-
-fig,ax = py.subplots()
-#py.imshow(intersect,interpolation='none',extent=[0,len(s),0,len(s)])
-
-# turn off the frame
-ax.set_frame_on(False)
-# Format
-fig = py.gcf()
-# put the major ticks at the middle of each cell
-ax.set_yticks(np.arange(intersect.shape[0]) + 0.5, minor=False)
-ax.set_xticks(np.arange(intersect.shape[1]) + 0.5, minor=False)
-# setting the labels
-ax.set_xticklabels(labels, minor=False)
-ax.set_yticklabels(labels,minor=False)
-
-im = ax.pcolor(intersect,cmap=py.cm.Blues)
-for y in range(intersect.shape[0]):
-    for x in range(intersect.shape[1]):
-        py.text(x + 0.5, y + 0.5, '%.0f' % intersect[y, x],
-                 horizontalalignment='center',
-                 verticalalignment='center',
-                 )
-for label in im.axes.xaxis.get_ticklabels():
-    label.set_rotation(90)
-#fig.colorbar(im)
-ax.grid(False)
-ax = py.gca()
-py.show()
-
-"""
