@@ -9,7 +9,7 @@ Poisson rate
 
 Uses nest to create connections with given parameters, simulate, and plot a raster
 
-Plotting can be done with Bokeh also, by uncommenting the final part of the script.
+Plotting can be done with Bokeh also, by uncommenting the final part of the script. .
 """
 import nest
 import nest.raster_plot
